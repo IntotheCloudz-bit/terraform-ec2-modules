@@ -26,7 +26,7 @@ git push -u origin main
 gh repo create terraform-ec2-modules --public --source=. --remote=origin --push
 ```
 
-#command for main.tf
+# command for main.tf
 ```
 module "ec2" {
   source = "git::https://github.com/IntotheCloudz-bit/terraform-ec2-modules.git"
@@ -35,8 +35,10 @@ module "ec2" {
   subnet_id          = module.vpc.private_subnet_ids[0]
   security_group_ids = [module.vpc.ec2_security_group_id]
 }
+```
 
 # for provider.tf 
+```
 terraform {
   required_providers {
     aws = {
