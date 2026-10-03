@@ -27,6 +27,7 @@ gh repo create terraform-ec2-modules --public --source=. --remote=origin --push
 ```
 
 #command for main.tf
+```
 module "ec2" {
   source = "git::https://github.com/IntotheCloudz-bit/terraform-ec2-modules.git"
 
@@ -58,3 +59,4 @@ provider "aws" {
     }
   }
 }
+```
