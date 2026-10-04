@@ -32,7 +32,7 @@ module "ec2" {
   source = "git::https://github.com/IntotheCloudz-bit/terraform-ec2-modules.git"
 
   key_name           = "Key pair name"
-  subnet_id          = module.vpc.private_subnet_ids[0]
+  subnet_id          = module.vpc.public_subnet_ids[0]
   security_group_ids = [module.vpc.ec2_security_group_id]
 }
 ```
@@ -44,6 +44,11 @@ terraform {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 6.0"
+    }
+
+    http = {
+      source  = "hashicorp/http"
+      version = "~> 3.0"
     }
   }
 
