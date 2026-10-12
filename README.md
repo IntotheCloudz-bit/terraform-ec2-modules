@@ -25,19 +25,44 @@ git push -u origin main
 ```
 gh repo create terraform-ec2-modules --public --source=. --remote=origin --push
 ```
-
+```
 # command for main.tf
-```
-module "ec2" {
-  source = "git::https://github.com/IntotheCloudz-bit/terraform-ec2-modules.git"
 
-  key_name           = "Key pair name"
-  subnet_id          = module.vpc.public_subnet_ids[0]
-  security_group_ids = [module.vpc.ec2_security_group_id]
+module "vpc" {
+  source = "git::https://github.com/IntotheCloudz-bit/terraform-ec2-modules.git//vpc"
+
+  name = "migration"
 }
-```
 
-# for provider.tf 
+module "sg" {
+  source = "git::https://github.com/IntotheCloudz-bit/terraform-ec2-modules.git//SG"
+
+  name   = "migration-web-sg"
+  vpc_id = module.vpc.vpc_id
+
+  ingress_rules = [
+    {
+      description = "Allow HTTP"
+      from_port   = 80
+      to_port     = 80
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+}
+
+module "ec2" {
+  source = "git::https://github.com/IntotheCloudz-bit/terraform-ec2-modules.git//ec2"
+
+  name                   = "migration-web-server"
+  subnet_id              = module.vpc.public_subnet_ids[0]
+  security_group_ids     = [module.sg.security_group_id]
+  key_name               = "YOUR_EXISTING_KEY_PAIR_NAME"
+  associate_public_ip_address = true
+}
+
+```
+# for provider.tf
 ```
 terraform {
   required_providers {

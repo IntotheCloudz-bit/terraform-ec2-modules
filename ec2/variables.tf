@@ -1,3 +1,4 @@
+
 variable "ami_id" {
   description = "AMI ID. Leave null to use the default Ubuntu 24.04 LTS AMI."
   type        = string
@@ -26,6 +27,19 @@ variable "security_group_ids" {
 }
 
 variable "key_name" {
-  description = "Name of the existing EC2 key pair"
+  description = "Optional name of an existing EC2 key pair"
   type        = string
+  default     = null
+}
+
+variable "associate_public_ip_address" {
+  description = "Whether to assign a public IPv4 address to the instance"
+  type        = bool
+  default     = true
+}
+
+variable "tags" {
+  description = "Additional tags to apply to the EC2 instance"
+  type        = map(string)
+  default     = {}
 }

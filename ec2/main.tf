@@ -21,14 +21,14 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "default" {
-  ami                    = var.ami_id != null ? var.ami_id : data.aws_ami.ubuntu[0].id
-  instance_type           = var.instance_type
-  key_name                = var.key_name
-  subnet_id               = var.subnet_id
-  associate_public_ip_address = true
-  vpc_security_group_ids  = var.security_group_ids
+  ami                         = var.ami_id != null ? var.ami_id : data.aws_ami.ubuntu[0].id
+  instance_type               = var.instance_type
+  key_name                    = var.key_name
+  subnet_id                   = var.subnet_id
+  associate_public_ip_address = var.associate_public_ip_address
+  vpc_security_group_ids      = var.security_group_ids
 
-  tags = {
+  tags = merge(var.tags, {
     Name = var.name
-  }
+  })
 }
