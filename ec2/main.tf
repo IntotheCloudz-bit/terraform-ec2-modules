@@ -27,6 +27,7 @@ resource "aws_instance" "default" {
   subnet_id                   = var.subnet_id
   associate_public_ip_address = var.associate_public_ip_address
   vpc_security_group_ids      = var.security_group_ids
+  iam_instance_profile        = var.iam_instance_profile_name
 
   tags = merge(var.tags, {
     Name = var.name

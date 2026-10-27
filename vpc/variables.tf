@@ -17,9 +17,11 @@ variable "availability_zones" {
 
   validation {
     condition = (
-      var.availability_zones == null ||
-      length(var.availability_zones) == 2
+      var.availability_zones == null
+      ? true
+      : length(var.availability_zones) == 2
     )
+
     error_message = "Provide exactly two Availability Zones, or leave null for automatic selection."
   }
 }
