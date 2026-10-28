@@ -1,41 +1,47 @@
 
 variable "name" {
-  description = "Name prefix for the security group"
+  description = "Name of the security group"
   type        = string
 }
 
 variable "description" {
-  description = "Description of the security group's purpose"
+  description = "Purpose of the security group"
   type        = string
   default     = "Managed by Terraform"
 }
 
 variable "vpc_id" {
-  description = "ID of the VPC where the security group will be created"
+  description = "VPC where the security group is created"
   type        = string
 }
 
 variable "ingress_rules" {
-  description = "List of inbound rules to allow"
+  description = "Inbound traffic rules"
+
   type = list(object({
-    description = string
-    from_port   = number
-    to_port     = number
-    protocol    = string
-    cidr_blocks = list(string)
+    description     = string
+    from_port       = number
+    to_port         = number
+    protocol        = string
+    cidr_blocks     = optional(list(string), [])
+    security_groups = optional(list(string), [])
   }))
+
   default = []
 }
 
 variable "egress_rules" {
-  description = "List of outbound rules to allow"
+  description = "Outbound traffic rules"
+
   type = list(object({
-    description = string
-    from_port   = number
-    to_port     = number
-    protocol    = string
-    cidr_blocks = list(string)
+    description     = string
+    from_port       = number
+    to_port         = number
+    protocol        = string
+    cidr_blocks     = optional(list(string), [])
+    security_groups = optional(list(string), [])
   }))
+
   default = [
     {
       description = "Allow all outbound IPv4 traffic"
@@ -48,7 +54,7 @@ variable "egress_rules" {
 }
 
 variable "tags" {
-  description = "Additional tags to apply to the security group"
+  description = "Additional tags"
   type        = map(string)
   default     = {}
 }
