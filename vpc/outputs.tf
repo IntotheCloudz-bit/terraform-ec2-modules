@@ -15,10 +15,18 @@ output "public_subnet_ids" {
 }
 
 output "private_subnet_ids" {
-  description = "IDs of the two private subnets"
+  description = "IDs of private subnets with routing ready"
   value       = aws_subnet.private[*].id
-}
 
+  # Make sure private-subnet outbound routing is configured
+  # before dependent resources use these subnet IDs.
+  depends_on = [
+    aws_route.private_nat,
+    aws_route_table_association.private,
+    aws_route.public_internet,
+    aws_route_table_association.public
+  ]
+}
 output "availability_zones" {
   description = "Availability Zones used by the VPC subnets"
   value       = local.availability_zones
