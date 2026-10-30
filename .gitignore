@@ -1,1 +1,25 @@
 terraform.tfvars
+
+# Terraform provider downloads
+**/.terraform/
+
+# Terraform state and temporary state locks
+**/*.tfstate
+**/*.tfstate.*
+**/.terraform.tfstate.lock.info
+
+# Local variables and sensitive configuration
+**/*.tfvars
+**/*.tfvars.json
+**/.env
+**/.env.*
+**/*.pem
+**/*.key
+
+# Terraform crash logs and saved plans
+**/crash.log
+**/crash.*.log
+**/*.tfplan
+
+# Reusable child-module dependency locks
+**/.terraform.lock.hcl
