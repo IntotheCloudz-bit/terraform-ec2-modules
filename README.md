@@ -1,9 +1,17 @@
 # create repo on gtihub
+
 ```
 echo "# tech-challenge-2" >> README.md
 ```
 ```
 git init
+```
+```
+gh repo create IntotheCloudz-bit/buildops \
+  --private \
+  --source=. \
+  --remote=origin \
+  --description "Production-style AWS Cloud DevOps SRE Platform"
 ```
 ```
 git add README.md
