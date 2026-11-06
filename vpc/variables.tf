@@ -25,31 +25,41 @@ variable "availability_zones" {
     error_message = "Provide exactly two Availability Zones, or leave null for automatic selection."
   }
 }
-
 variable "public_subnet_cidrs" {
-  description = "CIDR ranges for the two public subnets"
+  description = "Optional public subnet CIDRs; null calculates them automatically"
   type        = list(string)
-  default     = ["10.0.1.0/24", "10.0.3.0/24"]
+  default     = null
 
   validation {
-    condition     = length(var.public_subnet_cidrs) == 2
+    condition     = var.public_subnet_cidrs == null ? true : length(var.public_subnet_cidrs) == 2
     error_message = "Provide exactly two public subnet CIDRs."
   }
 }
 
 variable "private_subnet_cidrs" {
-  description = "CIDR ranges for the two private subnets"
+  description = "Optional private subnet CIDRs; null calculates them automatically"
   type        = list(string)
-  default     = ["10.0.2.0/24", "10.0.4.0/24"]
+  default     = null
 
   validation {
-    condition     = length(var.private_subnet_cidrs) == 2
+    condition     = var.private_subnet_cidrs == null ? true : length(var.private_subnet_cidrs) == 2
     error_message = "Provide exactly two private subnet CIDRs."
   }
 }
 
+variable "subnet_newbits" {
+  description = "Additional network bits for subnet sizing; 8 converts /16 into /24"
+  type        = number
+  default     = 8
+
+  validation {
+    condition     = var.subnet_newbits >= 1 && var.subnet_newbits <= 12 && floor(var.subnet_newbits) == var.subnet_newbits
+    error_message = "subnet_newbits must be an integer between 1 and 12."
+  }
+}
+
 variable "tags" {
-  description = "Additional tags to apply to VPC resources"
+  description = "Tags applied to VPC resources"
   type        = map(string)
   default     = {}
 }
